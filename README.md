@@ -6,7 +6,7 @@ Fast and lightweight implementation of xlsx file reader written in java
 Benchamrk
 =========
 
-small file (100rows 3 columns)
+small file (100 rows, 3 columns)
 ```
  testFileIteration hasNext 32 ms
  testFileIteration foreach 23 ms
@@ -21,7 +21,7 @@ small file (100rows 3 columns)
  testStreamIteration All 30 ms
 ```
  
-big file (100000rows 2columns)
+big file (1.000.000 rows, 2 columns)
 ```
  testFileIteration hasNext 4180 ms
  testFileIteration foreach 11306 ms

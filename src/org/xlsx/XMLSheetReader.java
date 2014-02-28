@@ -77,7 +77,6 @@ public class XMLSheetReader {
                         if (stack.peek().getProperties().getProperty("t").equals("s")) {
                             text = sharedStrings.get(new Integer(tagContent));
                         }
-                        System.out.println(text);
                         cols.add(text);
                     }
 

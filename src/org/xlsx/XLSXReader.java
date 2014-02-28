@@ -12,15 +12,10 @@ public class XLSXReader implements Closeable {
 
     private static Log logger = LogFactory.getLog(XLSXReader.class);
 
-    XLSXResource xlsxResource;
-
-    Map<String, String> relationship;
-    List<String> sharedStrings;
+    private XLSXResource xlsxResource;
+    private List<String> sharedStrings;
 
     public XLSXReader(InputStream input) {
-        sharedStrings = new ArrayList<String>();
-        relationship = new HashMap<String, String>();
-
         xlsxResource = new XLSXResource(input);
     }
 
@@ -35,36 +30,51 @@ public class XLSXReader implements Closeable {
      */
     public XMLSheetReader getSheet(int i) throws IOException, XMLStreamException {
 
-        readSharedStrings("xl/sharedStrings.xml");
-        return readSheet("xl/worksheets/sheet" + (i + 1) + ".xml");
-    }
+        String name = "xl/worksheets/sheet" + (i + 1) + ".xml";
 
-    public void readRelationships(String name) throws IOException, XMLStreamException {
+        if( !xlsxResource.has(name) ) {
+            throw new FileNotFoundException(name);
+        }
 
-        InputStream stream = xlsxResource.get(name);
-        XMLRelationReader reader = new XMLRelationReader(XMLInputFactory.newInstance().createXMLStreamReader(stream));
-
-        relationship = reader.all();
-    }
-
-    public void readSharedStrings(String name) throws IOException, XMLStreamException {
-
-        InputStream stream = xlsxResource.get(name);
-        XMLSharedStringReader reader = new XMLSharedStringReader(XMLInputFactory.newInstance().createXMLStreamReader(stream));
-
-        sharedStrings = reader.all();
-    }
-
-    public XMLSheetReader readSheet(String name) throws IOException, XMLStreamException {
-
-        InputStream stream = xlsxResource.get(name);
-        XMLSheetReader reader = new XMLSheetReader(XMLInputFactory.newInstance().createXMLStreamReader(stream));
-
-        reader.setSharedStrings(sharedStrings);
+        XMLSheetReader reader = getSheetReader(name);
+        reader.setSharedStrings(getSharedStrings());
 
         return reader;
     }
 
+    public XMLSharedStringReader getSharedStringsReader() throws IOException, XMLStreamException {
+
+        InputStream stream = xlsxResource.get("xl/sharedStrings.xml");
+        XMLSharedStringReader reader = new XMLSharedStringReader(XMLInputFactory.newInstance().createXMLStreamReader(stream));
+
+        return reader;
+    }
+
+    private XMLSheetReader getSheetReader(String name) throws IOException, XMLStreamException {
+
+        InputStream stream = xlsxResource.get(name);
+        XMLSheetReader reader = new XMLSheetReader(XMLInputFactory.newInstance().createXMLStreamReader(stream));
+        return reader;
+    }
+
+    public List<String> getSharedStrings() {
+        if( sharedStrings == null ) {
+            try {
+                sharedStrings = getSharedStringsReader().fetchAll();
+            } catch (XMLStreamException e) {
+                logger.fatal(e,e);
+                e.printStackTrace();
+            } catch (IOException e) {
+                logger.fatal(e,e);
+            }
+        }
+
+        return sharedStrings;
+    }
+
+    public void setSharedStrings(List<String> sharedStrings) {
+        this.sharedStrings = sharedStrings;
+    }
 
     @Override
     public void close() {

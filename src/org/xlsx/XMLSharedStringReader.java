@@ -53,7 +53,7 @@ public class XMLSharedStringReader {
         return si < 0 ? tagContent.toString() : null;
     }
 
-    public List<String> all() throws XMLStreamException {
+    public List<String> fetchAll() throws XMLStreamException {
 
         List<String> sharedStrings = new ArrayList<String>();
 

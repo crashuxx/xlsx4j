@@ -6,7 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import javax.xml.stream.XMLStreamException;
 import java.util.Iterator;
 
-public class XLSXRowIterator implements Iterator<XLSXSheetRow> {
+public class XLSXSheetRowIterator implements Iterator<XLSXSheetRow> {
 
     private static Log logger = LogFactory.getLog(XLSXResource.class);
 
@@ -14,7 +14,7 @@ public class XLSXRowIterator implements Iterator<XLSXSheetRow> {
 
     private XLSXSheetRow next;
 
-    public XLSXRowIterator(XMLSheetReader sheetReader) {
+    public XLSXSheetRowIterator(XMLSheetReader sheetReader) {
         reader = sheetReader;
     }
 

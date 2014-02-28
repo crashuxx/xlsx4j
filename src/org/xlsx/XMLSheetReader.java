@@ -8,7 +8,7 @@ import java.util.*;
 public class XMLSheetReader implements Iterable<XLSXSheetRow> {
 
     private XMLStreamReader inputStream;
-    private XLSXRowIterator rowsIterator = null;
+    private XLSXSheetRowIterator rowsIterator = null;
     private List<String> sharedStrings;
 
     private Stack<XMLTag> stack = new Stack<XMLTag>();
@@ -104,9 +104,9 @@ public class XMLSheetReader implements Iterable<XLSXSheetRow> {
     }
 
     @Override
-    public XLSXRowIterator iterator() {
+    public XLSXSheetRowIterator iterator() {
         if( rowsIterator == null ) {
-            rowsIterator = new XLSXRowIterator(this);
+            rowsIterator = new XLSXSheetRowIterator(this);
         }
 
         return rowsIterator;

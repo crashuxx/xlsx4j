@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class XLSXSheetRowIterator implements Iterator<XLSXSheetRow> {
 
-    private static Log logger = LogFactory.getLog(XLSXResource.class);
+    private static Log logger = LogFactory.getLog(StreamXLSXResource.class);
 
     XMLSheetReader reader;
 

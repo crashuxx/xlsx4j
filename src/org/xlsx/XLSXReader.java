@@ -16,7 +16,11 @@ public class XLSXReader implements Closeable {
     private List<String> sharedStrings;
 
     public XLSXReader(InputStream input) {
-        xlsxResource = new XLSXResource(input);
+        xlsxResource = new StreamXLSXResource(input);
+    }
+
+    public XLSXReader(XLSXResource resource) {
+        xlsxResource = resource;
     }
 
     /**
@@ -77,7 +81,7 @@ public class XLSXReader implements Closeable {
     }
 
     @Override
-    public void close() {
+    public void close() throws IOException {
         xlsxResource.close();
     }
 }

@@ -13,32 +13,54 @@ import java.util.List;
 
 public class XLSXReaderTest {
 
+    static String filename = "res/test/test.xlsx";
+
     @Test
-    public void testIterator() throws IOException, XMLStreamException, InterruptedException {
+    public void testStreamIteration() throws IOException, XMLStreamException, InterruptedException {
 
         long startAll = System.nanoTime();
 
-        XLSXReader reader = new XLSXReader( new FileInputStream("res/test/test.xlsx"));
+        XLSXReader reader = new XLSXReader(new FileInputStream(filename));
 
         long start = System.nanoTime();
         Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
-        System.out.println("hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testStreamIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
 
         start = System.nanoTime();
-        for(XLSXSheetRow row: reader.getSheet(0) ) {
+        for (XLSXSheetRow row : reader.getSheet(0)) {
             Assert.assertNotNull(row.get(0));
-        //    System.out.println(row.get(0));
+            //    System.out.println(row.get(0));
         }
-        System.out.println("foreach " + ((System.nanoTime() - start) / 1000000) + " ms");
-        System.out.println("All " + ((System.nanoTime() - startAll) / 1000000) + " ms");
+        System.out.println("testStreamIteration foreach " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testStreamIteration All " + ((System.nanoTime() - startAll) / 1000000) + " ms");
     }
 
     @Test
-    public void testLazyIterator() throws IOException, XMLStreamException, InterruptedException {
+    public void testFileIteration() throws IOException, XMLStreamException, InterruptedException {
 
         long startAll = System.nanoTime();
 
-        XLSXReader reader = new XLSXReader( new FileInputStream("res/test/test.xlsx"));
+        XLSXReader reader = new XLSXReader(new FileXLSXResource(filename));
+
+        long start = System.nanoTime();
+        Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
+        System.out.println("testFileIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
+
+        start = System.nanoTime();
+        for (XLSXSheetRow row : reader.getSheet(0)) {
+            Assert.assertNotNull(row.get(0));
+            //    System.out.println(row.get(0));
+        }
+        System.out.println("testFileIteration foreach " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testFileIteration All " + ((System.nanoTime() - startAll) / 1000000) + " ms");
+    }
+
+    @Test
+    public void testStreamLazyIteration() throws IOException, XMLStreamException, InterruptedException {
+
+        long startAll = System.nanoTime();
+
+        XLSXReader reader = new XLSXReader(new FileInputStream(filename));
 
         long start = System.nanoTime();
         Factory<String> factory = new XMLSharedStringFactory(reader.getSharedStringsReader());
@@ -46,15 +68,15 @@ public class XLSXReaderTest {
         reader.setSharedStrings(sharedStringsList);
 
         Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
-        System.out.println("hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testStreamLazyIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
 
         start = System.nanoTime();
-        for(XLSXSheetRow row: reader.getSheet(0) ) {
+        for (XLSXSheetRow row : reader.getSheet(0)) {
             Assert.assertNotNull(row.get(0));
 //            System.out.println(row.get(0));
         }
-        System.out.println("foreach " + ((System.nanoTime() - start) / 1000000) + " ms");
-        System.out.println("All " + ((System.nanoTime() - startAll) / 1000000) + " ms");
+        System.out.println("testStreamLazyIteration foreach " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testStreamLazyIteration All " + ((System.nanoTime() - startAll) / 1000000) + " ms");
     }
 
 

@@ -13,7 +13,7 @@ class FileXLSXResource implements XLSXResource {
 
     private static Log logger = LogFactory.getLog(FileXLSXResource.class);
 
-    String filename;
+    private String filename;
 
     public FileXLSXResource(String filename) {
         this.filename = filename;

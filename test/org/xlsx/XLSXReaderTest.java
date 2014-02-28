@@ -79,6 +79,29 @@ public class XLSXReaderTest {
         System.out.println("testStreamLazyIteration All " + ((System.nanoTime() - startAll) / 1000000) + " ms");
     }
 
+    @Test
+    public void testFileLazyIteration() throws IOException, XMLStreamException, InterruptedException {
+
+        long startAll = System.nanoTime();
+
+        XLSXReader reader = new XLSXReader(new FileXLSXResource(filename));
+
+        long start = System.nanoTime();
+        Factory<String> factory = new XMLSharedStringFactory(reader.getSharedStringsReader());
+        List<String> sharedStringsList = LazyList.lazyList(new ArrayList<String>(), factory);
+        reader.setSharedStrings(sharedStringsList);
+
+        Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
+        System.out.println("testStreamLazyIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
+
+        start = System.nanoTime();
+        for (XLSXSheetRow row : reader.getSheet(0)) {
+            Assert.assertNotNull(row.get(0));
+            //    System.out.println(row.get(0));
+        }
+        System.out.println("testFileIteration foreach " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testFileIteration All " + ((System.nanoTime() - startAll) / 1000000) + " ms");
+    }
 
     class XMLSharedStringFactory implements Factory<String> {
 

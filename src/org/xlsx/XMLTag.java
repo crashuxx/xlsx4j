@@ -3,8 +3,8 @@ package org.xlsx;
 import java.util.Properties;
 
 class XMLTag {
-    String name;
-    Properties properties;
+    private String name;
+    private Properties properties;
 
     XMLTag(String tagName) {
         name = tagName;

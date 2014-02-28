@@ -10,7 +10,7 @@ public class XLSXSheetRowIterator implements Iterator<XLSXSheetRow> {
 
     private static Log logger = LogFactory.getLog(StreamXLSXResource.class);
 
-    XMLSheetReader reader;
+    private XMLSheetReader reader;
 
     private XLSXSheetRow next;
 

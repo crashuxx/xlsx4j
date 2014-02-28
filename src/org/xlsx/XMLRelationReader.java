@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class XMLRelationReader {
 
-    XMLStreamReader inputStream;
+    private XMLStreamReader inputStream;
 
     public XMLRelationReader(XMLStreamReader input) {
         inputStream = input;

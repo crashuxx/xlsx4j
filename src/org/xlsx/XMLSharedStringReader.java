@@ -7,7 +7,7 @@ import java.util.*;
 
 public class XMLSharedStringReader {
 
-    XMLStreamReader inputStream;
+    private XMLStreamReader inputStream;
 
     public XMLSharedStringReader(XMLStreamReader input) {
         inputStream = input;

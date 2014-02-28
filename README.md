@@ -14,7 +14,6 @@ small file (100 rows, 3 columns)
  testStreamLazyIteration foreach 11 ms
  testStreamLazyIteration All 114 ms
  
- testStreamIteration hasNext 24 ms
  testStreamIteration foreach 4 ms
  testStreamIteration All 30 ms
 ```

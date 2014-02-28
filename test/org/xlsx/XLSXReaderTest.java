@@ -92,15 +92,15 @@ public class XLSXReaderTest {
         reader.setSharedStrings(sharedStringsList);
 
         Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
-        System.out.println("testStreamLazyIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testFileLazyIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
 
         start = System.nanoTime();
         for (XLSXSheetRow row : reader.getSheet(0)) {
             Assert.assertNotNull(row.get(0));
             //    System.out.println(row.get(0));
         }
-        System.out.println("testFileIteration foreach " + ((System.nanoTime() - start) / 1000000) + " ms");
-        System.out.println("testFileIteration All " + ((System.nanoTime() - startAll) / 1000000) + " ms");
+        System.out.println("testFileLazyIteration foreach " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testFileLazyIteration All " + ((System.nanoTime() - startAll) / 1000000) + " ms");
     }
 
     class XMLSharedStringFactory implements Factory<String> {

@@ -5,23 +5,31 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.util.*;
 
-public class XMLSheetReader {
+public class XMLSheetReader implements Iterable<XLSXSheetRow> {
 
-    XMLStreamReader inputStream;
+    private XMLStreamReader inputStream;
+    private XLSXRowIterator rowsIterator = null;
+    private List<String> sharedStrings;
 
-    boolean inSheetData = false;
+    private Stack<XMLTag> stack = new Stack<XMLTag>();
 
     public XMLSheetReader(XMLStreamReader input) {
         inputStream = input;
         sharedStrings = new ArrayList<String>();
     }
 
-    List<String> sharedStrings;
-
     public void setSharedStrings(List<String> collection) {
         sharedStrings = collection;
     }
 
+    private boolean inSheetData = false;
+
+    /**
+     *
+     * fixme
+     *
+     * @throws XMLStreamException
+     */
     private void moveToSheetData() throws XMLStreamException {
 
         while (inputStream.hasNext()) {
@@ -42,16 +50,14 @@ public class XMLSheetReader {
         }
     }
 
-    private Stack<XMLTag> stack = new Stack<XMLTag>();
-
-    public List<String> next() throws XMLStreamException {
+    public XLSXSheetRow next() throws XMLStreamException {
 
         if (inSheetData) {
             moveToSheetData();
             inSheetData = true;
         }
         String tagContent = null;
-        List<String> cols = new ArrayList<String>();
+        XLSXSheetRow sheetRow = new XLSXSheetRow();
 
         int parsedRows = 0;
 
@@ -77,7 +83,7 @@ public class XMLSheetReader {
                         if (stack.peek().getProperties().getProperty("t").equals("s")) {
                             text = sharedStrings.get(new Integer(tagContent));
                         }
-                        cols.add(text);
+                        sheetRow.add(text);
                     }
 
                     if (tag.equals("row")) {
@@ -94,13 +100,15 @@ public class XMLSheetReader {
             }
         }
 
-        return parsedRows > 0 ? cols : null;
+        return parsedRows > 0 ? sheetRow : null;
     }
 
-    public List<String> all() throws XMLStreamException {
+    @Override
+    public XLSXRowIterator iterator() {
+        if( rowsIterator == null ) {
+            rowsIterator = new XLSXRowIterator(this);
+        }
 
-        List<String> sharedStrings = new ArrayList<String>();
-
-        return sharedStrings;
+        return rowsIterator;
     }
 }

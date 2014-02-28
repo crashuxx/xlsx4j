@@ -1,5 +1,6 @@
 package org.xlsx;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.xml.stream.XMLStreamException;
@@ -9,16 +10,14 @@ import java.io.IOException;
 public class XLSXReaderTest {
 
     @Test
-    public void testSimple() throws IOException, XMLStreamException, InterruptedException {
+    public void testIterator() throws IOException, XMLStreamException, InterruptedException {
 
-        long start = System.nanoTime();
+        XLSXReader reader = new XLSXReader( new FileInputStream("res/test/test.xlsx"));
 
-        XLSXReader reader = new XLSXReader( new FileInputStream("test.xlsx"));
+        Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
 
-//        reader.readRelationships("xl/_rels/workbook.xml.rels");
-        reader.readSharedStrings("xl/sharedStrings.xml");
-        reader.readSheet("xl/worksheets/sheet1.xml");
-
-        System.out.println("All " + ((System.nanoTime() - start) / 1000000) + " ms");
+        for(XLSXSheetRow row: reader.getSheet(0) ) {
+            Assert.assertNotNull(row.get(0));
+        }
     }
 }

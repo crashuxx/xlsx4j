@@ -24,6 +24,21 @@ public class XLSXReader implements Closeable {
         xlsxResource = new XLSXResource(input);
     }
 
+    /**
+     *
+     * fixme
+     *
+     * @param i
+     * @return
+     * @throws IOException
+     * @throws XMLStreamException
+     */
+    public XMLSheetReader getSheet(int i) throws IOException, XMLStreamException {
+
+        readSharedStrings("xl/sharedStrings.xml");
+        return readSheet("xl/worksheets/sheet" + (i + 1) + ".xml");
+    }
+
     public void readRelationships(String name) throws IOException, XMLStreamException {
 
         InputStream stream = xlsxResource.get(name);
@@ -40,22 +55,16 @@ public class XLSXReader implements Closeable {
         sharedStrings = reader.all();
     }
 
-    public void readSheet(String name) throws IOException, XMLStreamException {
+    public XMLSheetReader readSheet(String name) throws IOException, XMLStreamException {
 
         InputStream stream = xlsxResource.get(name);
         XMLSheetReader reader = new XMLSheetReader(XMLInputFactory.newInstance().createXMLStreamReader(stream));
 
         reader.setSharedStrings(sharedStrings);
-        int i = 0;
-        while (reader.next() != null) {
-            i++;
-        }
+
+        return reader;
     }
 
-    protected void finalize() throws Throwable {
-        close();
-        super.finalize();
-    }
 
     @Override
     public void close() {

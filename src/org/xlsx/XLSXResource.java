@@ -23,15 +23,20 @@ class XLSXResource implements Closeable {
 
     public InputStream get(String name) throws IOException {
 
-        if (files.isEmpty()) {
-            extract();
-        }
-
-        if (!files.containsKey(name)) {
+        if (!has(name)) {
             throw new FileNotFoundException(name);
         }
 
         return new FileInputStream(files.get(name));
+    }
+
+    public boolean has(String name) throws IOException {
+
+        if (files.isEmpty()) {
+            extract();
+        }
+
+        return files.containsKey(name);
     }
 
     private void extract() throws IOException {
@@ -72,11 +77,6 @@ class XLSXResource implements Closeable {
         }
 
         logger.debug("All " + ((System.nanoTime() - start) / 1000000) + " ms");
-    }
-
-    protected void finalize() throws Throwable {
-        close();
-        super.finalize();
     }
 
     @Override

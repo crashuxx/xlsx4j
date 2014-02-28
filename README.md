@@ -3,7 +3,7 @@ xlsx4j
 
 Fast and lightweight implementation of xlsx file reader written in java
 
-Benchamrk
+Benchmark
 =========
 
 small file (100 rows, 3 columns)

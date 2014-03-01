@@ -2,3 +2,5 @@
 out
 tmp
 *.iml
+build
+dist

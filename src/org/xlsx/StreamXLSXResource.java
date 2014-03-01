@@ -30,10 +30,14 @@ class StreamXLSXResource implements XLSXResource {
         return new FileInputStream(files.get(name));
     }
 
-    public boolean has(String name) throws IOException {
+    public boolean has(String name) {
 
         if (files.isEmpty()) {
-            extract();
+            try {
+                extract();
+            } catch (IOException e) {
+                logger.warn(e,e);
+            }
         }
 
         return files.containsKey(name);

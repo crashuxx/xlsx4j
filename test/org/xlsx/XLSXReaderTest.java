@@ -13,7 +13,7 @@ import java.util.List;
 
 public class XLSXReaderTest {
 
-    static String filename = "res/test/test.xlsx";
+    static String filename = "big.xlsx";
 
     @Test
     public void testStreamIteration() throws IOException, XMLStreamException, InterruptedException {
@@ -24,7 +24,7 @@ public class XLSXReaderTest {
 
         long start = System.nanoTime();
         Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
-        System.out.println("testStreamIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testStreamIteration first hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
 
         start = System.nanoTime();
         for (XLSXSheetRow row : reader.getSheet(0)) {
@@ -44,7 +44,7 @@ public class XLSXReaderTest {
 
         long start = System.nanoTime();
         Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
-        System.out.println("testFileIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testFileIteration first hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
 
         start = System.nanoTime();
         for (XLSXSheetRow row : reader.getSheet(0)) {
@@ -68,7 +68,7 @@ public class XLSXReaderTest {
         reader.setSharedStrings(sharedStringsList);
 
         Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
-        System.out.println("testStreamLazyIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testStreamLazyIteration first hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
 
         start = System.nanoTime();
         for (XLSXSheetRow row : reader.getSheet(0)) {
@@ -92,7 +92,7 @@ public class XLSXReaderTest {
         reader.setSharedStrings(sharedStringsList);
 
         Assert.assertTrue(reader.getSheet(0).iterator().hasNext());
-        System.out.println("testFileLazyIteration hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
+        System.out.println("testFileLazyIteration first hasNext " + ((System.nanoTime() - start) / 1000000) + " ms");
 
         start = System.nanoTime();
         for (XLSXSheetRow row : reader.getSheet(0)) {

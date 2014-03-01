@@ -1,7 +1,8 @@
 xlsx4j
 ======
 
-Fast and lightweight implementation of xlsx file reader written in java
+Fast and lightweight implementation of xlsx file reader written in java.
+Supports iteration over sheet without loading entire data into memory.
 
 Benchmark
 =========

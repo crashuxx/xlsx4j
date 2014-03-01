@@ -3,6 +3,14 @@ xlsx4j
 
 Fast and lightweight implementation of xlsx file reader written in java.
 Supports iteration over sheet without loading entire data into memory.
+```java
+XLSXReader reader = new XLSXReader(new FileXLSXResource(filename));
+//XLSXReader reader = new XLSXReader(new FileInputStream(filename));
+
+for (XLSXSheetRow row : reader.getSheet(0)) {
+    System.out.println(row.get(0));
+}
+```
 
 Benchmark
 =========

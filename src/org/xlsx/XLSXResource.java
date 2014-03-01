@@ -12,5 +12,5 @@ import java.util.zip.ZipInputStream;
 interface XLSXResource extends Closeable {
 
     public InputStream get(String name) throws IOException;
-    public boolean has(String name) throws IOException;
+    public boolean has(String name);
 }

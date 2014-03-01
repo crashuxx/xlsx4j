@@ -13,7 +13,7 @@ import java.util.List;
 
 public class XLSXReaderTest {
 
-    static String filename = "big.xlsx";
+    static String filename = "res/test/test.xlsx";
 
     @Test
     public void testStreamIteration() throws IOException, XMLStreamException, InterruptedException {
